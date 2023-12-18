@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -25,13 +24,24 @@ impl<Iter> Iterator for Progress<Iter>
     }
 }
 
+trait ProgressIteratorExt: Sized {
+    fn progress(self) -> Progress<Self>;
+}
+
+impl<Iter> ProgressIteratorExt for Iter where Iter: Iterator {
+    fn progress(self) -> Progress<Self> {
+        Progress::new(self)
+    }
+}
+
 fn expensive_calculation(_n: &i32) {
     sleep(Duration::from_secs(1));
 }
 
 fn main() {
     let v = vec![1, 2, 3];
-    for n in Progress::new(v.iter()) {
+    // for n in Progress::new(v.iter()) {
+    for n in v.iter().progress() {
         expensive_calculation(n)
     }
 }
