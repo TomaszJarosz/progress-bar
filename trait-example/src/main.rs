@@ -6,6 +6,7 @@ fn main() {
 
 mod step1;
 mod step2;
+mod step3;
 
 #[test]
 fn test_step_1() {
