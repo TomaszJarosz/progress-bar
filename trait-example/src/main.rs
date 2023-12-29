@@ -14,4 +14,13 @@ fn test_step_1() {
 
     assert_eq!(balances.balance(1), 100);
     assert_eq!(balances.balance(2), 200);
+    assert_eq!(balances.balance(3), 0);
+
+    assert!(balances.transfer(1,2,50).is_ok());
+    assert_eq!(balances.balance(1), 50);
+    assert_eq!(balances.balance(2), 250);
+
+    assert!(balances.transfer(1,2,100).is_err());
+    assert_eq!(balances.balance(1), 50);
+    assert_eq!(balances.balance(2), 250);
 }
