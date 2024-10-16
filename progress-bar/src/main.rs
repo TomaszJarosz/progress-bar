@@ -1,4 +1,4 @@
-//https://www.youtube.com/watch?v=bnnacleqg6k
+// https://www.youtube.com/watch?v=bnnacleqg6k
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -44,7 +44,9 @@ impl<Iter> Progress<Iter, Unbounded> {
 }
 
 impl<Iter> Progress<Iter, Unbounded>
-    where Iter: ExactSizeIterator {
+where
+    Iter: ExactSizeIterator,
+{
     pub fn with_bound(mut self) -> Progress<Iter, Bounded> {
         let bound = Bounded {
             bound: self.iter.len(),
@@ -62,7 +64,10 @@ impl<Iter> Progress<Iter, Bounded> {
 }
 
 impl<Iter, Bound> Iterator for Progress<Iter, Bound>
-    where Iter: Iterator, Bound: ProgressDisplay {
+where
+    Iter: Iterator,
+    Bound: ProgressDisplay,
+{
     type Item = Iter::Item;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -77,7 +82,10 @@ trait ProgressIteratorExt: Sized {
     fn progress(self) -> Progress<Self, Unbounded>;
 }
 
-impl<Iter> ProgressIteratorExt for Iter where Iter: Iterator {
+impl<Iter> ProgressIteratorExt for Iter
+where
+    Iter: Iterator,
+{
     fn progress(self) -> Progress<Self, Unbounded> {
         Progress::new(self)
     }
